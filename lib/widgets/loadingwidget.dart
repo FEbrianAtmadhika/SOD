@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class LoadingOverlay extends StatelessWidget {
-  const LoadingOverlay({Key? key}) : super(key: key);
+  const LoadingOverlay({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +29,7 @@ class LoadingOverlay extends StatelessWidget {
                 end: Alignment.bottomRight,
               ),
             ),
-            child: CircularProgressIndicator(
+            child: const CircularProgressIndicator(
               strokeWidth: 6, // Lebar garis indikator
               valueColor:
                   AlwaysStoppedAnimation(Colors.white), // Warna indikator

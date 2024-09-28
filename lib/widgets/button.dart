@@ -6,11 +6,11 @@ class ElevatedButtonFilled extends StatelessWidget {
   final VoidCallback onPressed;
 
   const ElevatedButtonFilled({
-    Key? key,
+    super.key,
     required this.text,
     required this.onPressed,
     this.image,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -49,12 +49,12 @@ class ElevatedButtonFilledIcon extends StatelessWidget {
   final Widget icon;
 
   const ElevatedButtonFilledIcon({
-    Key? key,
+    super.key,
     required this.text,
     required this.onPressed,
     this.image,
     required this.icon,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

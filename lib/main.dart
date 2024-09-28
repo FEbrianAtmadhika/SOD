@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:sod_new/bloc/Auth/auth_bloc.dart';
 import 'package:sod_new/bloc/Cart/cart_bloc.dart';
 import 'package:sod_new/bloc/Product/product_bloc.dart';
+import 'package:sod_new/bloc/Transaction/transaction_bloc.dart';
 import 'package:sod_new/screen/account.dart';
 import 'package:sod_new/screen/addAddress.dart';
 import 'package:sod_new/screen/address.dart';
@@ -36,6 +37,9 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        BlocProvider(
+          create: (context) => TransactionBloc(),
+        ),
         BlocProvider(
           create: (context) => CartBloc(),
         ),

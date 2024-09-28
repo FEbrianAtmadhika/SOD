@@ -72,7 +72,7 @@ class AuthService extends ChangeNotifier {
       final res = await http.post(
         Uri.parse(url),
         headers: {
-          'Authorization': '$token', // Add 'Bearer' for authorization header
+          'Authorization': token, // Add 'Bearer' for authorization header
         },
       );
 

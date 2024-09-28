@@ -102,16 +102,16 @@ class _RecommendationState extends State<Recommendation> {
                           return OutlinedButton(
                             style: ButtonStyle(
                               backgroundColor: selectedButton == variant.id
-                                  ? MaterialStatePropertyAll(borderbutton)
+                                  ? WidgetStatePropertyAll(borderbutton)
                                   : null,
-                              side: MaterialStatePropertyAll<BorderSide>(
+                              side: WidgetStatePropertyAll<BorderSide>(
                                 BorderSide(
                                   color: selectedButton == variant.id
                                       ? greenColor
                                       : greyColor,
                                 ),
                               ),
-                              shape: MaterialStatePropertyAll<
+                              shape: WidgetStatePropertyAll<
                                   RoundedRectangleBorder>(
                                 RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(5),
@@ -133,7 +133,7 @@ class _RecommendationState extends State<Recommendation> {
                               ),
                             ),
                           );
-                        }).toList(),
+                        }),
                       ]),
                   Text(
                     "Stok :  ${activeProduct.variants!.firstWhere(

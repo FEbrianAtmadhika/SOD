@@ -4,7 +4,6 @@ import 'package:sod_new/bloc/Auth/auth_bloc.dart';
 import 'package:sod_new/widgets/loadingwidget.dart';
 import '../shared/theme.dart';
 import '../widgets/akunmenu.dart';
-import '../widgets/topbar.dart';
 
 class AccountScreen extends StatefulWidget {
   const AccountScreen({super.key});

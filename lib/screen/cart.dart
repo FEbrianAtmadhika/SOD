@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sod_new/bloc/Cart/cart_bloc.dart';
+import 'package:sod_new/bloc/Transaction/transaction_bloc.dart';
+import 'package:sod_new/models/addtransactionmodel.dart';
 import 'package:sod_new/models/cartmodel.dart';
 import 'package:sod_new/widgets/loadingwidget.dart';
 import '../shared/theme.dart';
 import '../widgets/button.dart';
-import '../widgets/separator.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
@@ -415,9 +416,58 @@ class _CartScreenState extends State<CartScreen> {
                           ),
                         ),
                         const SizedBox(height: 10),
-                        ElevatedButtonFilled(
-                          text: "Lanjutkan Pembayaran",
-                          onPressed: () {},
+                        BlocConsumer<TransactionBloc, TransactionState>(
+                          listener: (context, state) {
+                            if (state is TransactionLoading) {
+                              showDialog(
+                                context: context,
+                                barrierDismissible: false,
+                                builder: (BuildContext context) {
+                                  return const LoadingOverlay();
+                                },
+                              );
+                            }
+                            if (state is AddTransactionSuccess) {
+                              Navigator.of(context).pop();
+                              setState(() {
+                                for (int i = 0; i < data.length; i++) {
+                                  if (itemSelectedList[i] == true) {
+                                    data.removeAt(i);
+                                    itemSelectedList.removeAt(i);
+                                  }
+                                }
+                              });
+                              Navigator.of(context).pushNamed('/successCart');
+                            }
+                            if (state is AddTransactionFailed) {
+                              Navigator.of(context).pop();
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text(state.e)));
+                            }
+                          },
+                          builder: (context, state) {
+                            return ElevatedButtonFilled(
+                              text: "Lanjutkan Pembayaran",
+                              onPressed: () {
+                                AddTransactionModel item = AddTransactionModel(
+                                    appfee: 1000,
+                                    shippingprice: 10000,
+                                    totalprice:
+                                        calculateTotal(data, itemSelectedList),
+                                    listitem: []);
+                                for (int i = 0; i < data.length; i++) {
+                                  if (itemSelectedList[i] == true) {
+                                    item.listitem!.add(CheckedItemModel(
+                                        checkeditem: data[i].id,
+                                        quantity: data[i].quantity));
+                                  }
+                                }
+                                context
+                                    .read<TransactionBloc>()
+                                    .add(AddTransaction(item));
+                              },
+                            );
+                          },
                         )
                       ],
                     ),

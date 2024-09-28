@@ -242,16 +242,15 @@ class _AddAddressState extends State<AddAddress> {
                       children: [
                         OutlinedButton(
                           style: ButtonStyle(
-                            side: MaterialStatePropertyAll<BorderSide>(
+                            side: WidgetStatePropertyAll<BorderSide>(
                               BorderSide(
                                   color: selectedButton == 1
                                       ? greenColor
                                       : Colors.transparent),
                             ),
-                            backgroundColor:
-                                MaterialStatePropertyAll(formColor),
-                            shape: MaterialStatePropertyAll<
-                                RoundedRectangleBorder>(
+                            backgroundColor: WidgetStatePropertyAll(formColor),
+                            shape:
+                                WidgetStatePropertyAll<RoundedRectangleBorder>(
                               RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(5),
                               ),
@@ -280,16 +279,15 @@ class _AddAddressState extends State<AddAddress> {
                         ),
                         OutlinedButton(
                           style: ButtonStyle(
-                            side: MaterialStatePropertyAll<BorderSide>(
+                            side: WidgetStatePropertyAll<BorderSide>(
                               BorderSide(
                                   color: selectedButton == 2
                                       ? greenColor
                                       : Colors.transparent),
                             ),
-                            backgroundColor:
-                                MaterialStatePropertyAll(formColor),
-                            shape: MaterialStatePropertyAll<
-                                RoundedRectangleBorder>(
+                            backgroundColor: WidgetStatePropertyAll(formColor),
+                            shape:
+                                WidgetStatePropertyAll<RoundedRectangleBorder>(
                               RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(5),
                               ),
@@ -318,16 +316,15 @@ class _AddAddressState extends State<AddAddress> {
                         ),
                         OutlinedButton(
                           style: ButtonStyle(
-                            side: MaterialStatePropertyAll<BorderSide>(
+                            side: WidgetStatePropertyAll<BorderSide>(
                               BorderSide(
                                   color: selectedButton == 3
                                       ? greenColor
                                       : Colors.transparent),
                             ),
-                            backgroundColor:
-                                MaterialStatePropertyAll(formColor),
-                            shape: MaterialStatePropertyAll<
-                                RoundedRectangleBorder>(
+                            backgroundColor: WidgetStatePropertyAll(formColor),
+                            shape:
+                                WidgetStatePropertyAll<RoundedRectangleBorder>(
                               RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(5),
                               ),

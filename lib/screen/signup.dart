@@ -24,12 +24,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: TopBar(
-        title: "",
-        onPressed: () {
-          Navigator.of(context).pushReplacementNamed('/');
-        },
-      ),
       body: SingleChildScrollView(
         child: Center(
           child: Padding(

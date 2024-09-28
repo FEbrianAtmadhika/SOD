@@ -126,7 +126,7 @@ class CheckoutScreen extends StatelessWidget {
                   itemCount: 8,
                   itemBuilder: (context, index) {
                     return Container(
-                      padding: EdgeInsets.all(10),
+                      padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
                         color: greenCard,
                         shape: BoxShape.rectangle,

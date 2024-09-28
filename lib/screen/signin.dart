@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sod_new/bloc/Auth/auth_bloc.dart';
-import 'package:sod_new/models/authmodel.dart';
 import 'package:sod_new/models/loginmodel.dart';
-import 'package:sod_new/screen/splash.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sod_new/widgets/loadingwidget.dart';
 import '../shared/theme.dart';
@@ -32,12 +30,6 @@ class _SignInScreenState extends State<SignInScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: TopBar(
-        title: "",
-        onPressed: () {
-          Navigator.of(context).pushReplacementNamed('/');
-        },
-      ),
       body: BlocListener<AuthBloc, AuthState>(
         listener: (context, state) {
           if (state is AuthLoading) {

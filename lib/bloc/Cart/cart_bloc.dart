@@ -2,8 +2,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:sod_new/models/addcartmodel.dart';
 import 'package:sod_new/models/cartmodel.dart';
-import 'package:sod_new/models/categorymodel.dart';
-import 'package:sod_new/models/kacaumodel.dart';
 import 'package:sod_new/services/cartservice.dart';
 
 part 'cart_event.dart';

@@ -37,7 +37,11 @@ class SuccessCart extends StatelessWidget {
             ),
             ElevatedButtonFilled(
               text: "Kembali Ke Beranda",
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).popUntil((route) {
+                  return route.settings.name == '/bottomnavigationbar';
+                });
+              },
             )
           ],
         ),

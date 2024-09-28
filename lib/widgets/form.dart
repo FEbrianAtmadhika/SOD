@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import '../shared/theme.dart';
 
@@ -15,7 +13,7 @@ class CustomFormField extends StatefulWidget {
   final Function()? onTap;
 
   const CustomFormField({
-    Key? key,
+    super.key,
     required this.title,
     this.obscureText = false,
     this.controller,
@@ -25,7 +23,7 @@ class CustomFormField extends StatefulWidget {
     this.validator,
     this.suffixicon,
     this.onTap,
-  }) : super(key: key);
+  });
 
   @override
   State<CustomFormField> createState() => _CustomFormFieldState();

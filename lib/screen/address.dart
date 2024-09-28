@@ -71,12 +71,12 @@ class AddressScreen extends StatelessWidget {
                   ),
                   OutlinedButton(
                     style: ButtonStyle(
-                      side: MaterialStatePropertyAll<BorderSide>(
+                      side: WidgetStatePropertyAll<BorderSide>(
                         BorderSide(
                           color: greenColor,
                         ),
                       ),
-                      shape: MaterialStatePropertyAll<RoundedRectangleBorder>(
+                      shape: WidgetStatePropertyAll<RoundedRectangleBorder>(
                         RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(5),
                         ),

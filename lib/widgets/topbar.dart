@@ -7,11 +7,11 @@ class TopBar extends StatelessWidget implements PreferredSizeWidget {
   final PreferredSizeWidget? bottom;
 
   const TopBar({
-    Key? key,
+    super.key,
     required this.title,
     this.onPressed,
     this.bottom,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

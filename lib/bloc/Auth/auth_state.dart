@@ -32,3 +32,13 @@ class AuthFailedAutoLogin extends AuthState {
   @override
   List<Object> get props => [e];
 }
+
+class AuthAddAddressSuccess extends AuthState {}
+
+class AuthAddAddressFailed extends AuthState {
+  final String e;
+  const AuthAddAddressFailed(this.e);
+
+  @override
+  List<Object> get props => [e];
+}

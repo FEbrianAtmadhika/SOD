@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sod_new/bloc/Auth/auth_bloc.dart';
+import 'package:sod_new/models/authmodel.dart';
 import '../shared/theme.dart';
 import '../widgets/button.dart';
 
@@ -37,74 +40,162 @@ class AddressScreen extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Container(
-              padding: const EdgeInsets.all(15),
-              decoration: BoxDecoration(color: formColor),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+        child: BlocBuilder<AuthBloc, AuthState>(builder: (context, state) {
+          if (state is AuthSuccess) {
+            AuthModel? data = state.data;
+
+            if (data.address != null && data.address!.isNotEmpty) {
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Text(
-                    "Dika Alkadri | (+62) 822-8564-9330",
-                    style: blackTextStyle.copyWith(
-                      fontSize: 16,
-                      fontWeight: medium,
-                    ),
-                    textAlign: TextAlign.left,
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    "Komplek Lubuk Gading II, Blok O no.10, RT.3 RW.9, Kel.Batang Kabung Koto Tangah KOTO TANGAH, KOTA PADANG, SUMATERA BARAT, ID 25171",
-                    style: blackTextStyle.copyWith(
-                      fontSize: 13,
-                      fontWeight: regular,
-                    ),
-                    textAlign: TextAlign.left,
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  OutlinedButton(
-                    style: ButtonStyle(
-                      side: WidgetStatePropertyAll<BorderSide>(
-                        BorderSide(
-                          color: greenColor,
+                  ...data.address!.map((e) {
+                    return Column(
+                      children: [
+                        Card(
+                          color: whiteColor,
+                          elevation: 3,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Text(
+                                      e.receiverName ?? 'Unknown Receiver',
+                                      style: blackTextStyle.copyWith(
+                                        fontSize: 18,
+                                        fontWeight: semiBold,
+                                      ),
+                                    ),
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        color: (e.type == 'home'
+                                            ? blueColor.withOpacity(0.2)
+                                            : redColor.withOpacity(0.2)),
+                                        borderRadius: const BorderRadius.all(
+                                            Radius.circular(50)),
+                                      ),
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 3, horizontal: 5),
+                                      child: Text(
+                                        '${e.type?[0].toUpperCase() ?? ''}${e.type?.substring(1) ?? ''}',
+                                        style: (e.type == 'home'
+                                            ? blueTextStyle.copyWith(
+                                                fontSize: 10,
+                                                fontWeight: regular)
+                                            : redTextStyle.copyWith(
+                                                fontSize: 10,
+                                                fontWeight: regular)),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                                const SizedBox(height: 5),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: <Widget>[
+                                    const Icon(Icons.phone),
+                                    Text(
+                                      e.receiverPhone ?? 'No phone number',
+                                      style: greyTextStyle.copyWith(
+                                        fontSize: 16,
+                                        fontWeight: regular,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 5),
+                                Row(
+                                  children: <Widget>[
+                                    const Icon(Icons.location_on),
+                                    Expanded(
+                                      child: Text(
+                                        "${e.address ?? 'Unknown address'}, ${e.subDistrict?.name ?? ''}, ${e.subDistrict?.districtInfo?.name ?? ''}",
+                                        style: greyTextStyle.copyWith(
+                                          fontSize: 16,
+                                          fontWeight: regular,
+                                        ),
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    )
+                                  ],
+                                ),
+                                const SizedBox(height: 5),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        color: (e.status == 'active'
+                                            ? greenColor.withOpacity(0.2)
+                                            : redColor.withOpacity(0.2)),
+                                        borderRadius: const BorderRadius.all(
+                                            Radius.circular(50)),
+                                      ),
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 3, horizontal: 5),
+                                      child: Text(
+                                        '${e.status?[0].toUpperCase() ?? ''}${e.status?.substring(1) ?? ''}',
+                                        style: (e.status == 'active'
+                                            ? greenTextStyle.copyWith(
+                                                fontSize: 10,
+                                                fontWeight: regular)
+                                            : redTextStyle.copyWith(
+                                                fontSize: 10,
+                                                fontWeight: regular)),
+                                      ),
+                                    ),
+                                    ElevatedButtonFilledIconSmall(
+                                      text: 'Edit',
+                                      onPressed: () {
+                                        // Handle the navigation here
+                                        // Navigator.of(context)
+                                        //     .pushNamed('/editAddress', arguments: e.id);
+                                      },
+                                      icon: const Icon(
+                                        Icons.edit,
+                                        color: Colors.white,
+                                        size: 15,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
-                      ),
-                      shape: WidgetStatePropertyAll<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                      ),
-                    ),
-                    onPressed: () {},
-                    child: Text(
-                      "Rumah",
-                      style: greenTextStyle.copyWith(
-                        fontSize: 14,
-                        fontWeight: medium,
-                      ),
-                    ),
+                        const SizedBox(height: 20),
+                      ],
+                    );
+                  }),
+                  ElevatedButtonFilled(
+                    text: "+   Tambah Alamat Baru",
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/addAddress');
+                    },
                   ),
                 ],
-              ),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            ElevatedButtonFilled(
-              text: "+   Tambah Alamat Baru",
-              onPressed: () {
-                Navigator.pushNamed(context, '/addAddress');
-              },
-            ),
-          ],
-        ),
+              );
+            } else {
+              return Center(
+                child: Text('No addresses available'),
+              );
+            }
+          } else if (state is AuthLoading) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          } else {
+            return Center(
+              child: Text('Failed to load addresses'),
+            );
+          }
+        }),
       ),
     );
   }

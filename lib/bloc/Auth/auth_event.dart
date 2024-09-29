@@ -38,3 +38,13 @@ class AuthLogout extends AuthEvent {
   @override
   List<Object> get props => [data];
 }
+
+class AuthAddAddress extends AuthEvent {
+  final AuthModel user;
+  final AddAddressModel data;
+
+  const AuthAddAddress(this.user, this.data);
+
+  @override
+  List<Object> get props => [user, data];
+}

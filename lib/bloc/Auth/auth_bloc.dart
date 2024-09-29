@@ -1,8 +1,10 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sod_new/models/addaddressmodel.dart';
 import 'package:sod_new/models/authmodel.dart';
 import 'package:sod_new/models/loginmodel.dart';
+import 'package:sod_new/services/addressservice.dart';
 import 'package:sod_new/services/authservice.dart';
 import 'package:sod_new/services/securestorageservices.dart';
 
@@ -47,10 +49,20 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           await AuthService().logout();
           emit(AuthInitial());
         } catch (e) {
-          emit(AuthFailed(
-              e.toString())); // Emit AuthFailed to handle the error state
-          emit(AuthSuccess(
-              event.data)); // Re-emit the last known successful state
+          emit(AuthFailed(e.toString()));
+          emit(AuthSuccess(event.data));
+        }
+      }
+      if (event is AuthAddAddress) {
+        try {
+          emit(AuthLoading());
+          AuthModel res =
+              await Addressservice().addAddress(event.user, event.data);
+          emit(AuthAddAddressSuccess());
+          emit(AuthSuccess(res));
+        } catch (e) {
+          emit(AuthAddAddressFailed(e.toString()));
+          emit(AuthSuccess(event.user));
         }
       }
     });

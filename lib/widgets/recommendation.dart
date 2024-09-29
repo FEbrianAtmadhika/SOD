@@ -42,6 +42,7 @@ class _RecommendationState extends State<Recommendation> {
                         width: 70,
                         child: Image.network(
                           activeProduct.thumbnail!,
+                          fit: BoxFit.contain,
                         ),
                       ),
                       const SizedBox(

@@ -1,6 +1,7 @@
 import 'package:sod_new/models/subdistrictmodel.dart';
 
-class AddAddressModel {
+class EditAddressModel {
+  int? id;
   String? receivername;
   String? receiverphone;
   SubDistrictModel? subdistrictid;
@@ -10,8 +11,9 @@ class AddAddressModel {
   String? longitude;
   String? status;
 
-  AddAddressModel(
-      {required this.address,
+  EditAddressModel(
+      {required this.id,
+      required this.address,
       required this.latitude,
       required this.longitude,
       required this.receivername,

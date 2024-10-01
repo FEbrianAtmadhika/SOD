@@ -12,8 +12,6 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     on<ProductEvent>((event, emit) async {
       if (event is ProductGetAll) {
         try {
-          print('Product Get All');
-
           emit(ProductLoading());
 
           KacauModel res = await ProductServices().getAllProduct();

@@ -29,7 +29,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Scaffold(
       appBar: TopBar(
         title: "Profile",
-        onPressed: () {},
+        onPressed: () {
+          Navigator.of(context).pop();
+        },
       ),
       body: SingleChildScrollView(
         child: Padding(

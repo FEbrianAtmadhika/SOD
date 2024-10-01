@@ -12,7 +12,7 @@ class AddressModel extends ChangeNotifier {
   String? receiverName;
   String? receiverPhone;
   String? status;
-  SubDistrict? subDistrict;
+  SubDistrictModel? subDistrict;
 
   AddressModel({
     this.id,
@@ -41,7 +41,7 @@ class AddressModel extends ChangeNotifier {
       receiverPhone: json['receiver_phone'],
       status: json['status'],
       subDistrict: json['sub_district'] != null
-          ? SubDistrict.fromJson(json['sub_district'])
+          ? SubDistrictModel.fromJson(json['sub_district'])
           : null,
     );
   }

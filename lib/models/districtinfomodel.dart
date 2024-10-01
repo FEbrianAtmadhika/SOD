@@ -1,14 +1,14 @@
-class DistrictInfo {
+class DistrictInfoModel {
   int? id;
   String? name;
 
-  DistrictInfo({
+  DistrictInfoModel({
     this.id,
     this.name,
   });
 
-  factory DistrictInfo.fromJson(Map<String, dynamic> json) {
-    return DistrictInfo(
+  factory DistrictInfoModel.fromJson(Map<String, dynamic> json) {
+    return DistrictInfoModel(
       id: json['id'],
       name: json['name'],
     );

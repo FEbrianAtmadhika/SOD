@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sod_new/models/addaddressmodel.dart';
 import 'package:sod_new/models/authmodel.dart';
+import 'package:sod_new/models/editaddressmodel.dart';
 import 'package:sod_new/models/loginmodel.dart';
 import 'package:sod_new/services/addressservice.dart';
 import 'package:sod_new/services/authservice.dart';
@@ -31,8 +32,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
       if (event is AuthLogin) {
         try {
-          print('Auth login');
-
           emit(AuthLoading());
 
           AuthModel res = await AuthService().login(event.data);
@@ -62,6 +61,18 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           emit(AuthSuccess(res));
         } catch (e) {
           emit(AuthAddAddressFailed(e.toString()));
+          emit(AuthSuccess(event.user));
+        }
+      }
+      if (event is AuthEditAddress) {
+        try {
+          emit(AuthLoading());
+          AuthModel res =
+              await Addressservice().editAddress(event.user, event.data);
+          emit(AuthEditAddressSuccess());
+          emit(AuthSuccess(res));
+        } catch (e) {
+          emit(AuthEditAddressFailed(e.toString()));
           emit(AuthSuccess(event.user));
         }
       }

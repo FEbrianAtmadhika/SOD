@@ -19,7 +19,6 @@ class TransactionService extends ChangeNotifier {
         'Authorization': token,
       });
       Map<String, dynamic> rawdata = jsonDecode(res.body);
-      print(res.body);
       if (rawdata['code'] == 200 && rawdata['status'] == "success") {
         for (var element in rawdata['data']) {
           temp.add(TransactionModel.fromJson(element));
@@ -91,8 +90,6 @@ class TransactionService extends ChangeNotifier {
         },
         body: jsonEncode(requestBody),
       );
-
-      // Log the response body for debugging
       Map<String, dynamic> rawdata = jsonDecode(response.body);
 
       // Check if transaction is successful

@@ -12,8 +12,6 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
     on<TransactionEvent>((event, emit) async {
       if (event is TransactionGetAll) {
         try {
-          print('Transaction Get All');
-
           emit(TransactionLoading());
 
           List<TransactionModel> res =
@@ -26,8 +24,6 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
       }
       if (event is AddTransaction) {
         try {
-          print('Add Transaction');
-
           emit(TransactionLoading());
 
           await TransactionService().addTransaction(event.data);

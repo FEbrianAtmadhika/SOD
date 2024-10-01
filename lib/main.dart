@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:sod_new/bloc/Auth/auth_bloc.dart';
 import 'package:sod_new/bloc/Cart/cart_bloc.dart';
+import 'package:sod_new/bloc/District/district_bloc.dart';
 import 'package:sod_new/bloc/Product/product_bloc.dart';
 import 'package:sod_new/bloc/Transaction/transaction_bloc.dart';
 import 'package:sod_new/screen/account.dart';
@@ -12,6 +13,7 @@ import 'package:sod_new/screen/address.dart';
 import 'package:sod_new/screen/bottomnavigationbar.dart';
 import 'package:sod_new/screen/cart.dart';
 import 'package:sod_new/screen/checkout.dart';
+import 'package:sod_new/screen/editaddress.dart';
 import 'package:sod_new/screen/homepage.dart';
 import 'package:sod_new/screen/order.dart';
 import 'package:sod_new/screen/profile.dart';
@@ -37,6 +39,9 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        BlocProvider(
+          create: (context) => DistrictBloc(),
+        ),
         BlocProvider(
           create: (context) => TransactionBloc(),
         ),
@@ -74,6 +79,7 @@ class MainApp extends StatelessWidget {
           '/profile': (context) => const ProfileScreen(),
           '/successCart': (context) => const SuccessCart(),
           '/transaksi': (context) => const TransaksiScreen(),
+          '/editaddress': (context) => EditAddress()
         },
       ),
     );

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sod_new/bloc/Cart/cart_bloc.dart';
 import 'package:sod_new/bloc/Product/product_bloc.dart';
@@ -169,9 +168,7 @@ class _RecommendationState extends State<Recommendation> {
                                 color: greenColor,
                               ),
                               onPressed: () => setState(() {
-                                if (itemCount == 0) {
-                                  print(0);
-                                }
+                                if (itemCount == 0) {}
                                 if (itemCount > 0) {
                                   itemCount--;
                                 }

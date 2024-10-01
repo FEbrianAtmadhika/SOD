@@ -12,8 +12,6 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     on<CartEvent>((event, emit) async {
       if (event is CartGetAll) {
         try {
-          print('Cart Get All');
-
           emit(CartLoading());
 
           List<CartModel> res = await CartService().getAllCart();
@@ -25,7 +23,6 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       }
       if (event is AddCartItem) {
         try {
-          print('Add Cart');
           emit(CartAddLoading());
 
           String res = await CartService().addCart(event.data);

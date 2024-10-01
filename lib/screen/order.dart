@@ -186,33 +186,31 @@ class _OrderScreenState extends State<OrderScreen> {
                             ),
                           ),
                           const SizedBox(width: 10),
-                          Container(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Text(
-                                  e.variant!.product!.name!,
-                                  style: blackTextStyle.copyWith(
-                                    fontSize: 12,
-                                    fontWeight: semiBold,
-                                  ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(
+                                e.variant!.product!.name!,
+                                style: blackTextStyle.copyWith(
+                                  fontSize: 12,
+                                  fontWeight: semiBold,
                                 ),
-                                Text(
-                                  e.variant!.name!,
-                                  style: blackTextStyle.copyWith(
-                                    fontSize: 12,
-                                    fontWeight: regular,
-                                  ),
+                              ),
+                              Text(
+                                e.variant!.name!,
+                                style: blackTextStyle.copyWith(
+                                  fontSize: 12,
+                                  fontWeight: regular,
                                 ),
-                                Text(
-                                  "${e.quantity}X Rp. ${e.variant!.price}",
-                                  style: blackTextStyle.copyWith(
-                                    fontSize: 12,
-                                    fontWeight: regular,
-                                  ),
+                              ),
+                              Text(
+                                "${e.quantity}X Rp. ${e.variant!.price}",
+                                style: blackTextStyle.copyWith(
+                                  fontSize: 12,
+                                  fontWeight: regular,
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
                         ],
                       );
@@ -242,9 +240,6 @@ class _OrderScreenState extends State<OrderScreen> {
           builder: (context, state) {
             if (state is TransactionSuccess) {
               List<TransactionModel> data = state.data;
-              for (var element in data) {
-                print(element.status);
-              }
               return Padding(
                 padding: const EdgeInsets.only(top: 50),
                 child: Column(

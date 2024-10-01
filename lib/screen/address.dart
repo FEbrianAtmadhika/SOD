@@ -45,144 +45,146 @@ class AddressScreen extends StatelessWidget {
             AuthModel? data = state.data;
 
             if (data.address != null && data.address!.isNotEmpty) {
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  ...data.address!.map((e) {
-                    return Column(
-                      children: [
-                        Card(
-                          color: whiteColor,
-                          elevation: 3,
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: <Widget>[
-                                    Text(
-                                      e.receiverName ?? 'Unknown Receiver',
-                                      style: blackTextStyle.copyWith(
-                                        fontSize: 18,
-                                        fontWeight: semiBold,
+              return SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    ...data.address!.map((e) {
+                      return Column(
+                        children: [
+                          Card(
+                            color: whiteColor,
+                            elevation: 3,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      Text(
+                                        e.receiverName ?? 'Unknown Receiver',
+                                        style: blackTextStyle.copyWith(
+                                          fontSize: 18,
+                                          fontWeight: semiBold,
+                                        ),
                                       ),
-                                    ),
-                                    Container(
-                                      decoration: BoxDecoration(
-                                        color: (e.type == 'home'
-                                            ? blueColor.withOpacity(0.2)
-                                            : redColor.withOpacity(0.2)),
-                                        borderRadius: const BorderRadius.all(
-                                            Radius.circular(50)),
-                                      ),
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 3, horizontal: 5),
-                                      child: Text(
-                                        '${e.type?[0].toUpperCase() ?? ''}${e.type?.substring(1) ?? ''}',
-                                        style: (e.type == 'home'
-                                            ? blueTextStyle.copyWith(
-                                                fontSize: 10,
-                                                fontWeight: regular)
-                                            : redTextStyle.copyWith(
-                                                fontSize: 10,
-                                                fontWeight: regular)),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                                const SizedBox(height: 5),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: <Widget>[
-                                    const Icon(Icons.phone),
-                                    Text(
-                                      e.receiverPhone ?? 'No phone number',
-                                      style: greyTextStyle.copyWith(
-                                        fontSize: 16,
-                                        fontWeight: regular,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 5),
-                                Row(
-                                  children: <Widget>[
-                                    const Icon(Icons.location_on),
-                                    Expanded(
-                                      child: Text(
-                                        "${e.address ?? 'Unknown address'}, ${e.subDistrict?.name ?? ''}, ${e.subDistrict?.districtInfo?.name ?? ''}",
+                                      Container(
+                                        decoration: BoxDecoration(
+                                          color: (e.type == 'home'
+                                              ? blueColor.withOpacity(0.2)
+                                              : redColor.withOpacity(0.2)),
+                                          borderRadius: const BorderRadius.all(
+                                              Radius.circular(50)),
+                                        ),
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 3, horizontal: 5),
+                                        child: Text(
+                                          '${e.type?[0].toUpperCase() ?? ''}${e.type?.substring(1) ?? ''}',
+                                          style: (e.type == 'home'
+                                              ? blueTextStyle.copyWith(
+                                                  fontSize: 10,
+                                                  fontWeight: regular)
+                                              : redTextStyle.copyWith(
+                                                  fontSize: 10,
+                                                  fontWeight: regular)),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                  const SizedBox(height: 5),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: <Widget>[
+                                      const Icon(Icons.phone),
+                                      Text(
+                                        e.receiverPhone ?? 'No phone number',
                                         style: greyTextStyle.copyWith(
                                           fontSize: 16,
                                           fontWeight: regular,
                                         ),
-                                        overflow: TextOverflow.ellipsis,
                                       ),
-                                    )
-                                  ],
-                                ),
-                                const SizedBox(height: 5),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: <Widget>[
-                                    Container(
-                                      decoration: BoxDecoration(
-                                        color: (e.status == 'active'
-                                            ? greenColor.withOpacity(0.2)
-                                            : redColor.withOpacity(0.2)),
-                                        borderRadius: const BorderRadius.all(
-                                            Radius.circular(50)),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 5),
+                                  Row(
+                                    children: <Widget>[
+                                      const Icon(Icons.location_on),
+                                      Expanded(
+                                        child: Text(
+                                          "${e.address ?? 'Unknown address'}, ${e.subDistrict?.name ?? ''}, ${e.subDistrict?.districtInfo?.name ?? ''}",
+                                          style: greyTextStyle.copyWith(
+                                            fontSize: 16,
+                                            fontWeight: regular,
+                                          ),
+                                          maxLines: 3,
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                  const SizedBox(height: 5),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      Container(
+                                        decoration: BoxDecoration(
+                                          color: (e.status == 'active'
+                                              ? greenColor.withOpacity(0.2)
+                                              : redColor.withOpacity(0.2)),
+                                          borderRadius: const BorderRadius.all(
+                                              Radius.circular(50)),
+                                        ),
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 3, horizontal: 5),
+                                        child: Text(
+                                          '${e.status?[0].toUpperCase() ?? ''}${e.status?.substring(1) ?? ''}',
+                                          style: (e.status == 'active'
+                                              ? greenTextStyle.copyWith(
+                                                  fontSize: 10,
+                                                  fontWeight: regular)
+                                              : redTextStyle.copyWith(
+                                                  fontSize: 10,
+                                                  fontWeight: regular)),
+                                        ),
                                       ),
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 3, horizontal: 5),
-                                      child: Text(
-                                        '${e.status?[0].toUpperCase() ?? ''}${e.status?.substring(1) ?? ''}',
-                                        style: (e.status == 'active'
-                                            ? greenTextStyle.copyWith(
-                                                fontSize: 10,
-                                                fontWeight: regular)
-                                            : redTextStyle.copyWith(
-                                                fontSize: 10,
-                                                fontWeight: regular)),
+                                      ElevatedButtonFilledIconSmall(
+                                        text: 'Edit',
+                                        onPressed: () {
+                                          Navigator.of(context).pushNamed(
+                                              '/editaddress',
+                                              arguments: e.id);
+                                        },
+                                        icon: const Icon(
+                                          Icons.edit,
+                                          color: Colors.white,
+                                          size: 15,
+                                        ),
                                       ),
-                                    ),
-                                    ElevatedButtonFilledIconSmall(
-                                      text: 'Edit',
-                                      onPressed: () {
-                                        // Handle the navigation here
-                                        // Navigator.of(context)
-                                        //     .pushNamed('/editAddress', arguments: e.id);
-                                      },
-                                      icon: const Icon(
-                                        Icons.edit,
-                                        color: Colors.white,
-                                        size: 15,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                        const SizedBox(height: 20),
-                      ],
-                    );
-                  }),
-                  ElevatedButtonFilled(
-                    text: "+   Tambah Alamat Baru",
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/addAddress');
-                    },
-                  ),
-                ],
+                          const SizedBox(height: 20),
+                        ],
+                      );
+                    }),
+                    ElevatedButtonFilled(
+                      text: "+   Tambah Alamat Baru",
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/addAddress');
+                      },
+                    ),
+                  ],
+                ),
               );
             } else {
-              return Center(
+              return const Center(
                 child: Text('No addresses available'),
               );
             }
@@ -191,7 +193,7 @@ class AddressScreen extends StatelessWidget {
               child: CircularProgressIndicator(),
             );
           } else {
-            return Center(
+            return const Center(
               child: Text('Failed to load addresses'),
             );
           }

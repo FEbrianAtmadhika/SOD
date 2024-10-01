@@ -1,15 +1,15 @@
 import 'package:sod_new/models/districtinfomodel.dart';
 
-class SubDistrict {
+class SubDistrictModel {
   int? id;
   String? name;
   int? districtId;
   int? fee;
   String? description;
   String? status;
-  DistrictInfo? districtInfo;
+  DistrictInfoModel? districtInfo;
 
-  SubDistrict({
+  SubDistrictModel({
     this.id,
     this.name,
     this.districtId,
@@ -19,8 +19,8 @@ class SubDistrict {
     this.districtInfo,
   });
 
-  factory SubDistrict.fromJson(Map<String, dynamic> json) {
-    return SubDistrict(
+  factory SubDistrictModel.fromJson(Map<String, dynamic> json) {
+    return SubDistrictModel(
       id: json['id'],
       name: json['name'],
       districtId: json['district_id'],
@@ -28,7 +28,7 @@ class SubDistrict {
       description: json['description'],
       status: json['status'],
       districtInfo: json['district'] != null
-          ? DistrictInfo.fromJson(json['district'])
+          ? DistrictInfoModel.fromJson(json['district'])
           : null,
     );
   }

@@ -430,10 +430,19 @@ class _CartScreenState extends State<CartScreen> {
                             if (state is AddTransactionSuccess) {
                               Navigator.of(context).pop();
                               setState(() {
-                                for (int i = 0; i < data.length; i++) {
-                                  if (itemSelectedList[i] == true) {
-                                    data.removeAt(i);
-                                    itemSelectedList.removeAt(i);
+                                if (itemSelectedList.every(
+                                  (element) {
+                                    return element == true;
+                                  },
+                                )) {
+                                  data = [];
+                                  itemSelectedList = [];
+                                } else {
+                                  for (int i = 0; i < data.length; i++) {
+                                    if (itemSelectedList[i] == true) {
+                                      data.removeAt(i);
+                                      itemSelectedList.removeAt(i);
+                                    }
                                   }
                                 }
                               });

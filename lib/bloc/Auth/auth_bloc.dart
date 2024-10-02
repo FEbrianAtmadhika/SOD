@@ -5,6 +5,7 @@ import 'package:sod_new/models/addaddressmodel.dart';
 import 'package:sod_new/models/authmodel.dart';
 import 'package:sod_new/models/editaddressmodel.dart';
 import 'package:sod_new/models/loginmodel.dart';
+import 'package:sod_new/models/subdistrictmodel.dart';
 import 'package:sod_new/services/addressservice.dart';
 import 'package:sod_new/services/authservice.dart';
 import 'package:sod_new/services/securestorageservices.dart';
@@ -67,8 +68,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       if (event is AuthEditAddress) {
         try {
           emit(AuthLoading());
-          AuthModel res =
-              await Addressservice().editAddress(event.user, event.data);
+          AuthModel res = await Addressservice()
+              .editAddress(event.user, event.data, event.data2);
           emit(AuthEditAddressSuccess());
           emit(AuthSuccess(res));
         } catch (e) {

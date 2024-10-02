@@ -52,9 +52,10 @@ class AuthAddAddress extends AuthEvent {
 class AuthEditAddress extends AuthEvent {
   final AuthModel user;
   final EditAddressModel data;
+  final SubDistrictModel data2;
 
-  const AuthEditAddress(this.user, this.data);
+  const AuthEditAddress(this.user, this.data, this.data2);
 
   @override
-  List<Object> get props => [user, data];
+  List<Object> get props => [user, data, data2];
 }

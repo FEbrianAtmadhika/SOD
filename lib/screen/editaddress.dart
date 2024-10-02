@@ -19,32 +19,41 @@ class EditAddress extends StatefulWidget {
   State<EditAddress> createState() => _EditAddressState();
 }
 
-const List<String> status = <String>['inactive', 'active'];
-List<String?> district = <String?>[];
-List<String?> subDistrict = <String?>[];
-final _formKey = GlobalKey<FormState>();
-String dropdownValueStatus = status.first;
-String dropdownValuedistrict = district.first!;
-String dropdownValuesubdistrict = subDistrict.first!;
-String type = 'home';
-TextEditingController? name = TextEditingController();
-TextEditingController? phone = TextEditingController();
-TextEditingController? address = TextEditingController();
-TextEditingController? latitude = TextEditingController();
-TextEditingController? longitude = TextEditingController();
-int? id;
-bool isFirstLoad = true;
-AddressModel? editdata;
-
 class _EditAddressState extends State<EditAddress> {
+  List<String> status = <String>['inactive', 'active'];
+  List<String?> district = <String?>[];
+  List<String?> subDistrict = <String?>[];
+  final _formKey = GlobalKey<FormState>();
+  String? dropdownValueStatus;
+  String? dropdownValuedistrict;
+  String? dropdownValuesubdistrict;
+  String type = 'home';
+  TextEditingController? name = TextEditingController();
+  TextEditingController? phone = TextEditingController();
+  TextEditingController? address = TextEditingController();
+  TextEditingController? latitude = TextEditingController();
+  TextEditingController? longitude = TextEditingController();
+  int? id;
+  bool isFirstLoad = true;
+  AddressModel? editdata;
   @override
   void didChangeDependencies() {
-    context.read<DistrictBloc>().add(DistrictGetAll());
+    if (isFirstLoad) {
+      context.read<DistrictBloc>().add(DistrictGetAll());
+    } else {
+      isFirstLoad = true;
+    }
+
     super.didChangeDependencies();
   }
 
   @override
   void dispose() {
+    name!.dispose();
+    phone!.dispose();
+    address!.dispose();
+    latitude!.dispose();
+    longitude!.dispose();
     super.dispose();
   }
 
@@ -680,7 +689,7 @@ class _EditAddressState extends State<EditAddress> {
                                     text: "Simpan",
                                     onPressed: () {
                                       setState(() {});
-                                      if (dropdownValuedistrict.isEmpty ||
+                                      if (dropdownValuedistrict!.isEmpty ||
                                           dropdownValuesubdistrict ==
                                               'Pilih Kecamatan Dulu') {
                                         ScaffoldMessenger.of(context)
@@ -690,20 +699,21 @@ class _EditAddressState extends State<EditAddress> {
                                       }
                                       if (_formKey.currentState!.validate()) {
                                         _formKey.currentState!.save();
-                                        DistrictModel temp1 =
+                                        DistrictModel? temp1 =
                                             state.district.firstWhere(
                                           (element) {
                                             return element.district!.name ==
                                                 dropdownValuedistrict;
                                           },
                                         );
-                                        SubDistrictModel temp2 =
+                                        SubDistrictModel? temp2 =
                                             temp1.subDistricts!.firstWhere(
                                           (element) {
                                             return element.name ==
                                                 dropdownValuesubdistrict;
                                           },
                                         );
+
                                         context.read<AuthBloc>().add(
                                             AuthEditAddress(
                                                 authstate.data,
@@ -715,8 +725,19 @@ class _EditAddressState extends State<EditAddress> {
                                                     receivername: name!.text,
                                                     receiverphone: phone!.text,
                                                     status: dropdownValueStatus,
-                                                    subdistrictid: temp2,
-                                                    type: type)));
+                                                    subdistrictid: temp2.id,
+                                                    type: type),
+                                                SubDistrictModel(
+                                                    description:
+                                                        temp2.description,
+                                                    districtId:
+                                                        temp2.districtId,
+                                                    districtInfo:
+                                                        temp1.district,
+                                                    fee: temp2.fee,
+                                                    id: temp2.id,
+                                                    name: temp2.name,
+                                                    status: temp2.status)));
                                       }
                                     },
                                   ),

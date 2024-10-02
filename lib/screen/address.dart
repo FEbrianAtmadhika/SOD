@@ -180,6 +180,7 @@ class AddressScreen extends StatelessWidget {
                         Navigator.pushNamed(context, '/addAddress');
                       },
                     ),
+                    const SizedBox(height: 20),
                   ],
                 ),
               );

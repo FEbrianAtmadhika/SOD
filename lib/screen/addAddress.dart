@@ -16,24 +16,24 @@ class AddAddress extends StatefulWidget {
   State<AddAddress> createState() => _AddAddressState();
 }
 
-const List<String> status = <String>['inactive', 'active'];
-List<String?> district = <String?>[];
-List<String?> subDistrict = <String?>[];
-final _formKey = GlobalKey<FormState>();
-String dropdownValueStatus = status.first;
-String dropdownValuedistrict = district.first!;
-String dropdownValuesubdistrict = 'Pilih Kecamatan Dulu';
-String type = 'home';
-String? name;
-String? phone;
-String? address;
-String? latitude;
-String? longitude;
-
 class _AddAddressState extends State<AddAddress> {
+  List<String> status = <String>['inactive', 'active'];
+  List<String?> district = <String?>[];
+  List<String?> subDistrict = <String?>[];
+  final _formKey = GlobalKey<FormState>();
+  String? dropdownValueStatus;
+  String? dropdownValuedistrict;
+  String dropdownValuesubdistrict = 'Pilih Kecamatan Dulu';
+  String type = 'home';
+  String? name;
+  String? phone;
+  String? address;
+  String? latitude;
+  String? longitude;
   @override
   void didChangeDependencies() {
     context.read<DistrictBloc>().add(DistrictGetAll());
+
     super.didChangeDependencies();
   }
 
@@ -72,10 +72,22 @@ class _AddAddressState extends State<AddAddress> {
           if (state is DistrictSuccess) {
             district = state.district.map((e) => e.district!.name).toList();
 
+            // Ensure district is not empty before accessing the first element
             if (district.isNotEmpty) {
               setState(() {
                 dropdownValuedistrict = district.first!;
+                DistrictModel temp1 = state.district.firstWhere(
+                  (element) {
+                    return element.district!.name == dropdownValuedistrict;
+                  },
+                );
+                subDistrict = temp1.subDistricts!
+                    .map(
+                      (e) => e.name,
+                    )
+                    .toList();
               });
+              dropdownValuesubdistrict = subDistrict.first!;
             }
           }
         },
@@ -628,7 +640,7 @@ class _AddAddressState extends State<AddAddress> {
                                       text: "Simpan",
                                       onPressed: () {
                                         setState(() {});
-                                        if (dropdownValuedistrict.isEmpty ||
+                                        if (dropdownValuedistrict!.isEmpty ||
                                             dropdownValuesubdistrict ==
                                                 'Pilih Kecamatan Dulu') {
                                           ScaffoldMessenger.of(context)

@@ -4,7 +4,7 @@ class EditAddressModel {
   int? id;
   String? receivername;
   String? receiverphone;
-  SubDistrictModel? subdistrictid;
+  int? subdistrictid;
   String? address;
   String? type;
   String? latitude;

@@ -5,6 +5,7 @@ import 'package:sod_new/models/addressmodel.dart';
 import 'package:sod_new/models/authmodel.dart';
 import 'package:sod_new/models/districtmodel.dart';
 import 'package:sod_new/models/editaddressmodel.dart';
+import 'package:sod_new/models/subdistrictmodel.dart';
 import 'package:sod_new/services/securestorageservices.dart';
 import 'package:sod_new/shared/baseurl.dart';
 import 'package:http/http.dart' as http;
@@ -92,7 +93,8 @@ class Addressservice {
     return districts;
   }
 
-  Future<AuthModel> editAddress(AuthModel user, EditAddressModel data) async {
+  Future<AuthModel> editAddress(
+      AuthModel user, EditAddressModel data, SubDistrictModel data2) async {
     try {
       String? token = await SecureStorageServices().getToken();
 
@@ -105,7 +107,7 @@ class Addressservice {
       var body = jsonEncode({
         'receiver_name': data.receivername.toString(),
         'receiver_phone': data.receiverphone.toString(),
-        'sub_district_id': data.subdistrictid!.districtId.toString(),
+        'sub_district_id': data.subdistrictid!.toString(),
         'address': data.address.toString(),
         'type': data.type.toString(),
         'latitude': data.latitude.toString(),
@@ -127,12 +129,11 @@ class Addressservice {
             receiverName: data.receivername,
             receiverPhone: data.receivername,
             status: data.status,
-            subDistrict: data.subdistrictid,
-            subDistrictId: data.subdistrictid!.id,
+            subDistrict: data2,
+            subDistrictId: data.subdistrictid,
             type: data.type,
             userId: user.id);
 
-        // Update user address
         int index = user.address!.indexWhere(
           (element) => element.id == data.id,
         );

@@ -52,3 +52,14 @@ class AuthEditAddressFailed extends AuthState {
   @override
   List<Object> get props => [e];
 }
+
+class AuthDeleteAddressSuccess extends AuthState {}
+
+class AuthDeleteAddressFailed extends AuthState {
+  final String e;
+
+  const AuthDeleteAddressFailed(this.e);
+
+  @override
+  List<Object> get props => [e];
+}

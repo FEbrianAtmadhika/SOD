@@ -17,3 +17,12 @@ class AddTransaction extends TransactionEvent {
   @override
   List<Object> get props => [data];
 }
+
+class CancelTransaction extends TransactionEvent {
+  final List<TransactionModel> data;
+  final int id;
+
+  const CancelTransaction(this.data, this.id);
+  @override
+  List<Object> get props => [data, id];
+}

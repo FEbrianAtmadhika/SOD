@@ -258,6 +258,25 @@ class _RecommendationState extends State<Recommendation> {
         }
         if (state is CartAddFailed) {
           Navigator.of(context).pop();
+          showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: const Text('Failed'),
+                content: const Text(
+                    'Silahkan Pilih Alamat Yang Active Terlebih Dahulu'),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text('OK'),
+                  ),
+                ],
+              );
+            },
+          );
         }
       },
       child: Container(

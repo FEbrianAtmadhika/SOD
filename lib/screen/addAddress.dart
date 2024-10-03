@@ -622,7 +622,9 @@ class _AddAddressState extends State<AddAddress> {
                                 if (stateauth is AuthAddAddressFailed) {
                                   Navigator.of(context).pop();
                                   ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(content: Text(stateauth.e)));
+                                      const SnackBar(
+                                          content: const Text(
+                                              "Tidak Bisa MenambahKan Alamat")));
                                 }
                                 if (stateauth is AuthAddAddressSuccess) {
                                   Navigator.of(context).popUntil(

@@ -97,8 +97,8 @@ class _EditAddressState extends State<EditAddress> {
         }
         if (state is AuthAddAddressFailed) {
           Navigator.of(context).pop();
-          ScaffoldMessenger.of(context)
-              .showSnackBar(SnackBar(content: Text(state.e)));
+          ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text("Gagal Mengedit Alamat Anda")));
         }
       }, builder: (context, authstate) {
         if (authstate is AuthSuccess) {

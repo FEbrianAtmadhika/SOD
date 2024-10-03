@@ -1,5 +1,3 @@
-import 'package:sod_new/models/subdistrictmodel.dart';
-
 class EditAddressModel {
   int? id;
   String? receivername;

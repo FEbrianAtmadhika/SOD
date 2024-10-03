@@ -47,9 +47,13 @@ class CartService extends ChangeNotifier {
       final response = await request.send();
 
       final responseData = await http.Response.fromStream(response);
-
+      print(responseData.body);
       Map<String, dynamic> rawdata = jsonDecode(responseData.body);
-      return rawdata['message'];
+      if (rawdata['code'] == 200 && rawdata['status'] == 'success') {
+        return rawdata['status'];
+      } else {
+        return rawdata['message'];
+      }
     } catch (e) {
       rethrow;
     }

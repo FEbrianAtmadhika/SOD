@@ -59,3 +59,22 @@ class AuthEditAddress extends AuthEvent {
   @override
   List<Object> get props => [user, data, data2];
 }
+
+class AuthDeleteAddress extends AuthEvent {
+  final AuthModel user;
+  final int id;
+
+  const AuthDeleteAddress(this.id, this.user);
+
+  @override
+  List<Object> get props => [id, user];
+}
+
+class AuthRegister extends AuthEvent {
+  final RegisterModel data;
+
+  const AuthRegister(this.data);
+
+  @override
+  List<Object> get props => [data];
+}

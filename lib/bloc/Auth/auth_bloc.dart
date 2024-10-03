@@ -5,6 +5,7 @@ import 'package:sod_new/models/addaddressmodel.dart';
 import 'package:sod_new/models/authmodel.dart';
 import 'package:sod_new/models/editaddressmodel.dart';
 import 'package:sod_new/models/loginmodel.dart';
+import 'package:sod_new/models/registermodel.dart';
 import 'package:sod_new/models/subdistrictmodel.dart';
 import 'package:sod_new/services/addressservice.dart';
 import 'package:sod_new/services/authservice.dart';
@@ -30,7 +31,17 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           emit(AuthInitial());
         }
       }
+      if (event is AuthRegister) {
+        try {
+          emit(AuthLoading());
 
+          AuthService().register(event.data);
+
+          emit(AuthInitial());
+        } catch (e) {
+          emit(AuthFailed(e.toString()));
+        }
+      }
       if (event is AuthLogin) {
         try {
           emit(AuthLoading());
@@ -74,6 +85,18 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           emit(AuthSuccess(res));
         } catch (e) {
           emit(AuthEditAddressFailed(e.toString()));
+          emit(AuthSuccess(event.user));
+        }
+      }
+      if (event is AuthDeleteAddress) {
+        try {
+          emit(AuthLoading());
+          AuthModel res =
+              await Addressservice().delAddress(event.user, event.id);
+          emit(AuthDeleteAddressSuccess());
+          emit(AuthSuccess(res));
+        } catch (e) {
+          emit(AuthDeleteAddressFailed(e.toString()));
           emit(AuthSuccess(event.user));
         }
       }

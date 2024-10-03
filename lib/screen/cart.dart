@@ -74,9 +74,8 @@ class _CartScreenState extends State<CartScreen> {
             Navigator.of(context).pop();
           }
           if (state is CartDelFailed) {
-            Navigator.of(context).pop();
-            ScaffoldMessenger.of(context)
-                .showSnackBar(SnackBar(content: Text(state.e)));
+            ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text("gagal menghapus Item di cart")));
           }
           if (state is CartFailed) {
             Navigator.of(context).pop();
@@ -482,9 +481,14 @@ class _CartScreenState extends State<CartScreen> {
                       ],
                     ),
                   );
+          }
+          if (state is CartFailed) {
+            return const Center(
+              child: Text("Gagal Mengambil Data Cart"),
+            );
           } else {
             return const Center(
-              child: Text(''),
+              child: CircularProgressIndicator(),
             );
           }
         },

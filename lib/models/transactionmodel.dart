@@ -9,32 +9,39 @@ class TransactionModel extends ChangeNotifier {
   int? appFee;
   String? status;
   String? code;
+  String? address;
   List<DetailTransactionModel>? details;
+  String? payment;
+  UserModel? user;
 
-  TransactionModel({
-    this.id,
-    this.userId,
-    this.totalPrice,
-    this.shippingPrice,
-    this.appFee,
-    this.status,
-    this.code,
-    this.details,
-  });
+  TransactionModel(
+      {this.id,
+      this.userId,
+      this.totalPrice,
+      this.shippingPrice,
+      this.appFee,
+      this.status,
+      this.code,
+      this.details,
+      this.payment,
+      this.user});
 
-  factory TransactionModel.fromJson(Map<String, dynamic> json) {
-    return TransactionModel(
-      id: json['id'],
-      userId: json['user_id'],
-      totalPrice: json['total_price'],
-      shippingPrice: json['shipping_price'],
-      appFee: json['app_fee'],
-      status: json['status'],
-      code: json['code'],
-      details: (json['details'] as List)
-          .map((detail) => DetailTransactionModel.fromJson(detail))
-          .toList(),
-    );
+  TransactionModel.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    userId = json['user_id'];
+    totalPrice = json['total_price'];
+    shippingPrice = json['shipping_price'];
+    appFee = json['app_fee'];
+    status = json['status'];
+    code = json['code'];
+    address = json['address'];
+    details = (json['details'] as List)
+        .map((detail) => DetailTransactionModel.fromJson(detail))
+        .toList();
+    payment = json['payment'];
+    if (json['user'] != null) {
+      user = UserModel.fromJson(json['user']);
+    }
   }
 }
 
@@ -131,5 +138,19 @@ class ProductModel extends ChangeNotifier {
       thumbnail: json['thumbnail'],
       description: json['description'],
     );
+  }
+}
+
+class UserModel extends ChangeNotifier {
+  int? id;
+  String? name;
+  String? email;
+
+  UserModel({required this.email, required this.id, required this.name});
+
+  UserModel.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    email = json['email'];
   }
 }

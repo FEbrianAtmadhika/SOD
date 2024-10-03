@@ -95,14 +95,15 @@ class ElevatedButtonFilledIconSmall extends StatelessWidget {
   final String? image;
   final VoidCallback onPressed;
   final Widget icon;
+  final Color color;
 
-  const ElevatedButtonFilledIconSmall({
-    super.key,
-    required this.text,
-    required this.onPressed,
-    this.image,
-    required this.icon,
-  });
+  const ElevatedButtonFilledIconSmall(
+      {super.key,
+      required this.text,
+      required this.onPressed,
+      this.image,
+      required this.icon,
+      required this.color});
 
   @override
   Widget build(BuildContext context) {
@@ -111,7 +112,7 @@ class ElevatedButtonFilledIconSmall extends StatelessWidget {
         padding: const EdgeInsets.all(5),
         elevation: 0,
         surfaceTintColor: Colors.white,
-        backgroundColor: const Color.fromRGBO(51, 204, 51, 1),
+        backgroundColor: color,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
         ),

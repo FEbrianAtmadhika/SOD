@@ -40,3 +40,14 @@ class TransactionSuccess extends TransactionState {
         data,
       ];
 }
+
+class CancelTransactionSucccess extends TransactionState {}
+
+class CancelTransactionFailed extends TransactionState {
+  final String e;
+
+  const CancelTransactionFailed(this.e);
+
+  @override
+  List<Object> get props => [e];
+}

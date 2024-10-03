@@ -154,4 +154,37 @@ class Addressservice {
       rethrow;
     }
   }
+
+  Future<AuthModel> delAddress(AuthModel user, int id) async {
+    try {
+      String? token = await SecureStorageServices().getToken();
+
+      var uri = Uri.parse('$baseUrl/user-address/$id');
+
+      final response = http.Request('DELETE', uri)
+        ..headers.addAll({
+          'Authorization': token,
+          'Content-Type': 'application/json',
+        });
+
+      var streamedResponse = await response.send();
+      var finalResponse = await http.Response.fromStream(streamedResponse);
+
+      Map<String, dynamic> rawdata = json.decode(finalResponse.body);
+
+      if (finalResponse.statusCode == 200) {
+        int index = user.address!.indexWhere(
+          (element) {
+            return element.id == id;
+          },
+        );
+        user.address!.removeAt(index);
+        return user;
+      } else {
+        throw rawdata['message'];
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

@@ -32,6 +32,20 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
           emit(TransactionFailed(e.toString()));
         }
       }
+
+      if (event is CancelTransaction) {
+        try {
+          emit(TransactionLoading());
+
+          List<TransactionModel> res = await TransactionService()
+              .cancelTransaction(event.data, event.id);
+          emit(CancelTransactionSucccess());
+          emit(TransactionSuccess(res));
+        } catch (e) {
+          emit(CancelTransactionFailed(e.toString()));
+          emit(TransactionSuccess(event.data));
+        }
+      }
     });
   }
 }

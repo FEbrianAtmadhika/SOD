@@ -101,4 +101,39 @@ class TransactionService extends ChangeNotifier {
       rethrow;
     }
   }
+
+  Future<List<TransactionModel>> cancelTransaction(
+      List<TransactionModel> data, int id) async {
+    try {
+      String? token = await SecureStorageServices().getToken();
+
+      // Prepare request headers
+      var headers = {
+        'Authorization': token,
+        'Content-Type': 'application/json',
+      };
+
+      var body = jsonEncode({'status': 'cancelled'});
+
+      var response = await http.put(
+        Uri.parse('$baseurl/transactions/$id/status'),
+        headers: headers,
+        body: body,
+      );
+      Map<String, dynamic> rawdata = json.decode(response.body);
+      if (rawdata['code'] == 200 && rawdata['status'] == 'success') {
+        int index = data.indexWhere(
+          (element) => element.id == id,
+        );
+
+        data[index].status = 'cancelled';
+        return data;
+      } else {
+        Map<String, dynamic> rawdata = jsonDecode(response.body);
+        return rawdata['message'];
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

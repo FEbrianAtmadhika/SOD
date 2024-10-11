@@ -10,13 +10,16 @@ import 'button.dart';
 
 class Recommendation extends StatefulWidget {
   int? category;
-  Recommendation({super.key, required this.category});
+  String? searchText;
+  Recommendation({super.key, required this.category, required this.searchText});
 
   @override
   State<Recommendation> createState() => _RecommendationState();
 }
 
 class _RecommendationState extends State<Recommendation> {
+  List<ProductModel> product = [];
+
   void showmodelbottom(ProductModel activeProduct) {
     int selectedButton = activeProduct.variants!.first.id!;
     int itemCount = 0;
@@ -297,14 +300,23 @@ class _RecommendationState extends State<Recommendation> {
             BlocBuilder<ProductBloc, ProductState>(
               builder: (context, state) {
                 if (state is ProductSuccess) {
-                  List<ProductModel> product =
-                      widget.category == null || widget.category == 0
-                          ? state.product
-                          : state.product.where(
-                              (element) {
-                                return element.categoryid == widget.category;
-                              },
-                            ).toList();
+                  if (widget.searchText != null) {
+                    product = state.product.where(
+                      (element) {
+                        return element.name!.contains(widget.searchText!);
+                      },
+                    ).toList();
+                  }
+                  if (widget.searchText == null) {
+                    product = widget.category == null || widget.category == 0
+                        ? state.product
+                        : state.product.where(
+                            (element) {
+                              return element.categoryid == widget.category;
+                            },
+                          ).toList();
+                  }
+
                   return GridView.builder(
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,

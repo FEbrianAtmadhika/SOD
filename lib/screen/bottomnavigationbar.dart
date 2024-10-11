@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sod_new/bloc/Product/product_bloc.dart';
 import '../screen/account.dart';
 import '../screen/homepage.dart';
 import '../screen/order.dart';
@@ -13,6 +15,12 @@ class BottomNavigationScreen extends StatefulWidget {
 
 class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
   int currentPageIndex = 0;
+
+  @override
+  void didChangeDependencies() {
+    context.read<ProductBloc>().add(ProductGetAll());
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {

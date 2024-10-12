@@ -45,6 +45,7 @@ class _HomepageScreenState extends State<HomepageScreen> {
   void changeproductview(int? idcategory) {
     setState(() {
       isLoading = true;
+      searchtext = '';
       category = idcategory;
       isLoading = false;
     });

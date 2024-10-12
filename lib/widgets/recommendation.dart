@@ -301,7 +301,7 @@ class _RecommendationState extends State<Recommendation> {
             BlocBuilder<ProductBloc, ProductState>(
               builder: (context, state) {
                 if (state is ProductSuccess) {
-                  if (widget.searchText != null) {
+                  if (widget.searchText != '') {
                     product = state.product.where(
                       (element) {
                         return element.name!
@@ -309,8 +309,7 @@ class _RecommendationState extends State<Recommendation> {
                             .contains(widget.searchText!.toLowerCase());
                       },
                     ).toList();
-                  }
-                  if (widget.searchText == null) {
+                  } else {
                     product = widget.category == null || widget.category == 0
                         ? state.product
                         : state.product.where(

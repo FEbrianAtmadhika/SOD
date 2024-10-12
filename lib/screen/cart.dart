@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:sod_new/bloc/Cart/cart_bloc.dart';
 import 'package:sod_new/bloc/Transaction/transaction_bloc.dart';
 import 'package:sod_new/models/addtransactionmodel.dart';
@@ -247,10 +248,11 @@ class _CartScreenState extends State<CartScreen> {
                                               ),
                                             ),
                                             Text(
-                                              "Rp.${data[index].varian!.price}", // Use the price from CartModel
+                                              "Rp.${NumberFormat.currency(locale: 'id', symbol: '', decimalDigits: 0).format(data[index].varian!.price)}", // Use the price from CartModel
                                               style: blackTextStyle.copyWith(
-                                                  fontSize: 14,
-                                                  fontWeight: semiBold),
+                                                fontSize: 14,
+                                                fontWeight: semiBold,
+                                              ),
                                             ),
                                           ],
                                         ),
@@ -320,6 +322,7 @@ class _CartScreenState extends State<CartScreen> {
                           ),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               Text(
                                 "Order Info",
@@ -341,7 +344,7 @@ class _CartScreenState extends State<CartScreen> {
                                     ),
                                   ),
                                   Text(
-                                    "Rp${calculateSubtotal(data, itemSelectedList)}", // Calculate subtotal
+                                    "Rp. ${NumberFormat.currency(locale: 'id', symbol: '', decimalDigits: 0).format(calculateSubtotal(data, itemSelectedList))}", // Calculate subtotal
                                     style: whiteTextStyle.copyWith(
                                       fontSize: 14,
                                       fontWeight: semiBold,
@@ -362,27 +365,7 @@ class _CartScreenState extends State<CartScreen> {
                                     ),
                                   ),
                                   Text(
-                                    "Rp10000",
-                                    style: whiteTextStyle.copyWith(
-                                      fontSize: 14,
-                                      fontWeight: semiBold,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    "App Fee",
-                                    style: whiteTextStyle.copyWith(
-                                      fontSize: 14,
-                                      fontWeight: semiBold,
-                                    ),
-                                  ),
-                                  Text(
-                                    "Rp1000",
+                                    "Rp. 11.000",
                                     style: whiteTextStyle.copyWith(
                                       fontSize: 14,
                                       fontWeight: semiBold,
@@ -403,7 +386,7 @@ class _CartScreenState extends State<CartScreen> {
                                     ),
                                   ),
                                   Text(
-                                    "Rp${calculateTotal(data, itemSelectedList)}", // Calculate total
+                                    "Rp. ${NumberFormat.currency(locale: 'id', symbol: '', decimalDigits: 0).format(calculateTotal(data, itemSelectedList))}", // Calculate total
                                     style: whiteTextStyle.copyWith(
                                       fontSize: 14,
                                       fontWeight: semiBold,
@@ -457,22 +440,46 @@ class _CartScreenState extends State<CartScreen> {
                             return ElevatedButtonFilled(
                               text: "Lanjutkan Pembayaran",
                               onPressed: () {
-                                AddTransactionModel item = AddTransactionModel(
-                                    appfee: 1000,
-                                    shippingprice: 10000,
-                                    totalprice:
-                                        calculateTotal(data, itemSelectedList),
-                                    listitem: []);
-                                for (int i = 0; i < data.length; i++) {
-                                  if (itemSelectedList[i] == true) {
-                                    item.listitem!.add(CheckedItemModel(
-                                        checkeditem: data[i].id,
-                                        quantity: data[i].quantity));
+                                if (calculateSubtotal(data, itemSelectedList) >=
+                                    25000) {
+                                  AddTransactionModel item =
+                                      AddTransactionModel(
+                                          appfee: 1000,
+                                          shippingprice: 10000,
+                                          totalprice: calculateTotal(
+                                              data, itemSelectedList),
+                                          listitem: []);
+                                  for (int i = 0; i < data.length; i++) {
+                                    if (itemSelectedList[i] == true) {
+                                      item.listitem!.add(CheckedItemModel(
+                                          checkeditem: data[i].id,
+                                          quantity: data[i].quantity));
+                                    }
                                   }
+                                  context
+                                      .read<TransactionBloc>()
+                                      .add(AddTransaction(item));
+                                } else {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        title: const Text("Perhatian"),
+                                        content: const Text(
+                                            "Total harga sayur harus lebih dari Rp 25.000."),
+                                        actions: <Widget>[
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.of(context)
+                                                  .pop(); // Menutup dialog
+                                            },
+                                            child: const Text("OK"),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
                                 }
-                                context
-                                    .read<TransactionBloc>()
-                                    .add(AddTransaction(item));
                               },
                             );
                           },

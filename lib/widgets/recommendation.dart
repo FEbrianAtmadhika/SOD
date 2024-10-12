@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:sod_new/bloc/Cart/cart_bloc.dart';
 import 'package:sod_new/bloc/Product/product_bloc.dart';
 import 'package:sod_new/models/addcartmodel.dart';
@@ -70,11 +71,11 @@ class _RecommendationState extends State<Recommendation> {
                               ),
                             ),
                             Text(
-                              "Rp ${activeProduct.variants!.firstWhere(
+                              "Rp ${NumberFormat.currency(locale: 'id', symbol: '', decimalDigits: 0).format(activeProduct.variants!.firstWhere(
                                 (element) {
                                   return element.id == selectedButton;
                                 },
-                              ).price}",
+                              ).price)}",
                               style: blackTextStyle.copyWith(
                                 fontSize: 14,
                                 fontWeight: semiBold,
@@ -303,7 +304,9 @@ class _RecommendationState extends State<Recommendation> {
                   if (widget.searchText != null) {
                     product = state.product.where(
                       (element) {
-                        return element.name!.contains(widget.searchText!);
+                        return element.name!
+                            .toLowerCase()
+                            .contains(widget.searchText!.toLowerCase());
                       },
                     ).toList();
                   }
@@ -387,7 +390,7 @@ class _RecommendationState extends State<Recommendation> {
                                         children: [
                                           FittedBox(
                                             child: Text(
-                                              "Rp. ${product[index].variants![0].price}",
+                                              "Rp. ${NumberFormat.currency(locale: 'id', symbol: '', decimalDigits: 0).format(product[index].variants![0].price)}",
                                               style: blackTextStyle.copyWith(
                                                 fontWeight: bold,
                                               ),

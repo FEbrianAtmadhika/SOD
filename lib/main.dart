@@ -79,7 +79,7 @@ class MainApp extends StatelessWidget {
           '/profile': (context) => const ProfileScreen(),
           '/successCart': (context) => const SuccessCart(),
           '/transaksi': (context) => const TransaksiScreen(),
-          '/editaddress': (context) => EditAddress()
+          '/editaddress': (context) => const EditAddress()
         },
       ),
     );

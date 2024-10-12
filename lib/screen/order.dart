@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:sod_new/bloc/Transaction/transaction_bloc.dart';
 import 'package:sod_new/models/transactionmodel.dart';
 import '../shared/theme.dart';
@@ -166,21 +167,21 @@ class _OrderScreenState extends State<OrderScreen> {
                       ],
                     ),
                     Text(
-                      "Ongkir : Rp. ${data[index].shippingPrice}",
+                      "Ongkir : ${oCcy.format(data[index].shippingPrice)}",
                       style: blackTextStyle.copyWith(
                         fontSize: 12,
                         fontWeight: regular,
                       ),
                     ),
                     Text(
-                      "Biaya Lainnya : Rp. ${data[index].appFee}",
+                      "Biaya Lainnya : ${oCcy.format(data[index].appFee)}",
                       style: blackTextStyle.copyWith(
                         fontSize: 12,
                         fontWeight: regular,
                       ),
                     ),
                     Text(
-                      "Total Bill : Rp. ${data[index].totalPrice}",
+                      "Total Bill : ${oCcy.format(data[index].totalPrice)}",
                       style: blackTextStyle.copyWith(
                         fontSize: 12,
                         fontWeight: regular,
@@ -233,7 +234,7 @@ class _OrderScreenState extends State<OrderScreen> {
                                     ),
                                   ),
                                   Text(
-                                    "${e.quantity}X Rp. ${e.variant!.price}",
+                                    "${e.quantity}X ${oCcy.format(e.variant!.price)}",
                                     style: blackTextStyle.copyWith(
                                       fontSize: 12,
                                       fontWeight: regular,
@@ -298,6 +299,8 @@ class _OrderScreenState extends State<OrderScreen> {
     super.didChangeDependencies();
   }
 
+  final oCcy =
+      NumberFormat.currency(locale: 'id_ID', symbol: 'Rp ', decimalDigits: 0);
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(

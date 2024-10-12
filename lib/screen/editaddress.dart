@@ -376,22 +376,11 @@ class _EditAddressState extends State<EditAddress> {
                                       RichText(
                                         textAlign: TextAlign.center,
                                         text: TextSpan(
-                                          children: <TextSpan>[
-                                            TextSpan(
-                                              text: '* ',
-                                              style: redTextStyle.copyWith(
-                                                fontSize: 16,
-                                                fontWeight: medium,
-                                              ),
-                                            ),
-                                            TextSpan(
-                                              text: 'Alamat',
-                                              style: blackTextStyle.copyWith(
-                                                fontSize: 16,
-                                                fontWeight: medium,
-                                              ),
-                                            ),
-                                          ],
+                                          text: 'Alamat',
+                                          style: blackTextStyle.copyWith(
+                                            fontSize: 16,
+                                            fontWeight: medium,
+                                          ),
                                         ),
                                       ),
                                       CustomFormFieldText(
@@ -423,33 +412,17 @@ class _EditAddressState extends State<EditAddress> {
                                       RichText(
                                         textAlign: TextAlign.center,
                                         text: TextSpan(
-                                          children: <TextSpan>[
-                                            TextSpan(
-                                              text: '* ',
-                                              style: redTextStyle.copyWith(
-                                                fontSize: 16,
-                                                fontWeight: medium,
-                                              ),
-                                            ),
-                                            TextSpan(
-                                              text: 'Koordinat Latitude',
-                                              style: blackTextStyle.copyWith(
-                                                fontSize: 16,
-                                                fontWeight: medium,
-                                              ),
-                                            ),
-                                          ],
+                                          text: 'Koordinat Latitude',
+                                          style: blackTextStyle.copyWith(
+                                            fontSize: 16,
+                                            fontWeight: medium,
+                                          ),
                                         ),
                                       ),
                                       CustomFormField(
                                         title: "-6.2088",
                                         controller: latitude,
-                                        validator: (p0) {
-                                          if (p0!.isEmpty) {
-                                            return 'Masukkan Koordinat Latitude Alamat Penerima';
-                                          }
-                                          return null;
-                                        },
+                                        
                                         onSaved: (p0) {
                                           latitude!.text = p0!;
                                         },
@@ -489,12 +462,7 @@ class _EditAddressState extends State<EditAddress> {
                                       CustomFormField(
                                         title: "106.8456",
                                         controller: longitude,
-                                        validator: (p0) {
-                                          if (p0!.isEmpty) {
-                                            return 'Masukkan Koordinat Longitude Alamat Penerima';
-                                          }
-                                          return null;
-                                        },
+                                        
                                         onSaved: (p0) {
                                           longitude!.text = p0!;
                                         },

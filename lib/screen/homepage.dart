@@ -73,7 +73,7 @@ class _HomepageScreenState extends State<HomepageScreen> {
                         child: TextField(
                           onChanged: (value) {
                             setState(() {
-                              searchtext == value;
+                              searchtext = value;
                             });
                           },
                           controller: null,

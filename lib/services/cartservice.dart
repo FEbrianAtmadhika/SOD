@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:sod_new/models/addcartmodel.dart';
@@ -24,10 +25,10 @@ class CartService extends ChangeNotifier {
         }
         return temp;
       } else {
-        return rawdata['message'];
+        throw rawdata['message'];
       }
     } catch (e) {
-      rethrow;
+      throw e is SocketException ? 'Tidak Terkoneksi Server' : e.toString();
     }
   }
 
@@ -47,15 +48,14 @@ class CartService extends ChangeNotifier {
       final response = await request.send();
 
       final responseData = await http.Response.fromStream(response);
-      print(responseData.body);
       Map<String, dynamic> rawdata = jsonDecode(responseData.body);
       if (rawdata['code'] == 200 && rawdata['status'] == 'success') {
         return rawdata['status'];
       } else {
-        return rawdata['message'];
+        throw rawdata['message'];
       }
     } catch (e) {
-      rethrow;
+      throw e is SocketException ? 'Tidak Terkoneksi Server' : e.toString();
     }
   }
 
@@ -84,10 +84,10 @@ class CartService extends ChangeNotifier {
         }
         return data;
       } else {
-        throw Exception(rawdata['message']);
+        throw rawdata['message'];
       }
     } catch (e) {
-      rethrow;
+      throw e is SocketException ? 'Tidak Terkoneksi Server' : e.toString();
     }
   }
 }

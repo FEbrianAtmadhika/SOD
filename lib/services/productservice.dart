@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:sod_new/models/categorymodel.dart';
@@ -42,10 +43,10 @@ class ProductServices extends ChangeNotifier {
 
         return temp;
       } else {
-        throw jsonDecode(res.body)['message'];
+        throw rawdata['message'];
       }
     } catch (e) {
-      rethrow;
+      throw e is SocketException ? 'Tidak Terkoneksi Server' : e.toString();
     }
   }
 }

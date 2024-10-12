@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:sod_new/bloc/Auth/auth_bloc.dart';
 import 'package:sod_new/bloc/Cart/cart_bloc.dart';
 import 'package:sod_new/bloc/Product/product_bloc.dart';
 import 'package:sod_new/models/addcartmodel.dart';
@@ -203,17 +204,54 @@ class _RecommendationState extends State<Recommendation> {
                   const SizedBox(
                     height: 10,
                   ),
-                  ElevatedButtonFilled(
-                    text: "Tambah Ke Keranjang",
-                    onPressed: () {
-                      if (itemCount <= 0) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                                content: Text(
-                                    'Tidak Bisa Menambahkan Ke Keranjang')));
+                  BlocBuilder<AuthBloc, AuthState>(
+                    builder: (context, state) {
+                      if (state is AuthSuccess) {
+                        return ElevatedButtonFilled(
+                          text: "Tambah Ke Keranjang",
+                          onPressed: () {
+                            if (state.data.address!.isEmpty ||
+                                !state.data.address!.any(
+                                    (element) => element.status == 'active')) {
+                              showDialog(
+                                context: context,
+                                barrierDismissible: false,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: const Text('Gagal'),
+                                    content: const Text(
+                                        'Silahkan Pilih atau Tambahkan Alamat Yang Active Terlebih Dahulu'),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: const Text('OK'),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            } else {
+                              if (itemCount <= 0) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                        content: Text(
+                                            'Tidak Bisa Menambahkan Ke Keranjang')));
+                              } else {
+                                context.read<CartBloc>().add(AddCartItem(
+                                    AddCartModel(
+                                        quantity: itemCount,
+                                        variantid: selectedButton)));
+                              }
+                            }
+                          },
+                        );
                       } else {
-                        context.read<CartBloc>().add(AddCartItem(AddCartModel(
-                            quantity: itemCount, variantid: selectedButton)));
+                        return ElevatedButtonFilled(
+                          text: "Silahkan Login",
+                          onPressed: () {},
+                        );
                       }
                     },
                   ),
@@ -247,7 +285,7 @@ class _RecommendationState extends State<Recommendation> {
             builder: (BuildContext context) {
               return AlertDialog(
                 title: const Text('Success'),
-                content: const Text('Item successfully added to the cart!'),
+                content: const Text('Item Berhasil Ditambah Ke Cart'),
                 actions: [
                   TextButton(
                     onPressed: () {
@@ -262,25 +300,6 @@ class _RecommendationState extends State<Recommendation> {
         }
         if (state is CartAddFailed) {
           Navigator.of(context).pop();
-          showDialog(
-            context: context,
-            barrierDismissible: false,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                title: const Text('Failed'),
-                content: const Text(
-                    'Silahkan Pilih Alamat Yang Active Terlebih Dahulu'),
-                actions: [
-                  TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: const Text('OK'),
-                  ),
-                ],
-              );
-            },
-          );
         }
       },
       child: Container(

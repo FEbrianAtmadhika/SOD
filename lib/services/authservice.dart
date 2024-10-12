@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:sod_new/models/authmodel.dart';
@@ -31,7 +33,7 @@ class AuthService extends ChangeNotifier {
         throw rawdata['message'];
       }
     } catch (e) {
-      rethrow;
+      throw e is SocketException ? 'Tidak Terkoneksi Server' : e.toString();
     }
   }
 
@@ -50,10 +52,10 @@ class AuthService extends ChangeNotifier {
         await SecureStorageServices().storeCredentialToLocal(auth);
         return auth;
       } else {
-        throw jsonDecode(res.body)['message'];
+        throw rawdata['message'];
       }
     } catch (e) {
-      rethrow;
+      throw e is SocketException ? 'Tidak Terkoneksi Server' : e.toString();
     }
   }
 
@@ -75,7 +77,7 @@ class AuthService extends ChangeNotifier {
         throw rawdata['message'];
       }
     } catch (e) {
-      rethrow;
+      throw e is SocketException ? 'Tidak Terkoneksi Server' : e.toString();
     }
   }
 }

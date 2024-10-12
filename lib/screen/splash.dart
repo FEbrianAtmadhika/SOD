@@ -1,9 +1,82 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:in_app_update/in_app_update.dart';
 import 'package:sod_new/bloc/Auth/auth_bloc.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
-class SplashScreen extends StatelessWidget {
+class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
+
+  @override
+  State<SplashScreen> createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+  AppUpdateInfo? _updateInfo;
+  @override
+  void initState() {
+    _checkForUpdate();
+    super.initState();
+  }
+
+  // void _redirectToPlayStoreForTesting() async {
+  //   final url =
+  //       'https://play.google.com/apps/internaltest/4701084007459227187'; // replace with your closed testing Play Store URL
+  //   if (await canLaunchUrlString(url)) {
+  //     await launchUrlString(url);
+  //   } else {
+  //     throw 'Could not launch $url';
+  //   }
+  // }
+
+  Future<void> _checkForUpdate() async {
+    try {
+      final info = await InAppUpdate.checkForUpdate();
+      setState(() {
+        _updateInfo = info;
+      });
+
+      // Memeriksa apakah ada pembaruan wajib
+      if (_updateInfo?.updateAvailability ==
+          UpdateAvailability.updateAvailable) {
+        if (_updateInfo!.immediateUpdateAllowed == true) {
+          // await InAppUpdate.performImmediateUpdate();
+        }
+        if (_updateInfo!.flexibleUpdateAllowed == true) {
+          _showUpdateDialog();
+        }
+      } else {}
+    } catch (e) {}
+  }
+
+  void _showUpdateDialog() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Pembaruan Tersedia'),
+          content: const Text(
+              'Versi terbaru aplikasi tersedia. Apakah Anda ingin memperbarui sekarang?'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Batal'),
+            ),
+            TextButton(
+              onPressed: () async {
+                Navigator.of(context).pop();
+                await InAppUpdate.performImmediateUpdate();
+              },
+              child: const Text('Perbarui'),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {

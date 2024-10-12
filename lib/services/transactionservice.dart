@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:sod_new/models/addtransactionmodel.dart';
@@ -25,10 +26,10 @@ class TransactionService extends ChangeNotifier {
         }
         return temp;
       } else {
-        return rawdata['message'];
+        throw rawdata['message'];
       }
     } catch (e) {
-      rethrow;
+      throw e is SocketException ? 'Tidak Terkoneksi Server' : e.toString();
     }
   }
 
@@ -98,7 +99,7 @@ class TransactionService extends ChangeNotifier {
         throw rawdata['message'];
       }
     } catch (e) {
-      rethrow;
+      throw e is SocketException ? 'Tidak Terkoneksi Server' : e.toString();
     }
   }
 
@@ -129,11 +130,10 @@ class TransactionService extends ChangeNotifier {
         data[index].status = 'cancelled';
         return data;
       } else {
-        Map<String, dynamic> rawdata = jsonDecode(response.body);
-        return rawdata['message'];
+        throw rawdata['message'];
       }
     } catch (e) {
-      rethrow;
+      throw e is SocketException ? 'Tidak Terkoneksi Server' : e.toString();
     }
   }
 }

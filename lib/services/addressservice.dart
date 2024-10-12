@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:sod_new/models/addaddressmodel.dart';
 import 'package:sod_new/models/addressmodel.dart';
@@ -59,10 +60,10 @@ class Addressservice {
         }
         return user;
       } else {
-        return rawdata['message'];
+        throw rawdata['message'];
       }
     } catch (e) {
-      rethrow;
+      throw e is SocketException ? 'Tidak Terkoneksi Server' : e.toString();
     }
   }
 
@@ -74,23 +75,20 @@ class Addressservice {
       final res = await http.get(Uri.parse('$baseUrl/districts'), headers: {
         'Authorization': token,
       });
+      Map<String, dynamic> rawdata = jsonDecode(res.body);
       if (res.statusCode == 200) {
-        Map<String, dynamic> rawdata = jsonDecode(res.body);
-
         List<dynamic> rawDistricts = rawdata['data'];
         for (var district in rawDistricts) {
           DistrictModel districtModel = DistrictModel.fromJson(district);
           districts.add(districtModel);
         }
       } else {
-        // Handle non-200 HTTP status codes
-        throw Exception(
-            "Failed to load districts. Status code: ${res.statusCode}");
+        throw rawdata['message'];
       }
+      return districts;
     } catch (e) {
-      rethrow;
+      throw e is SocketException ? 'Tidak Terkoneksi Server' : e.toString();
     }
-    return districts;
   }
 
   Future<AuthModel> editAddress(
@@ -120,6 +118,7 @@ class Addressservice {
         headers: headers,
         body: body,
       );
+      Map<String, dynamic> rawdata = jsonDecode(response.body);
       if (response.statusCode == 200) {
         AddressModel temp = AddressModel(
             id: data.id,
@@ -147,11 +146,10 @@ class Addressservice {
         }
         return user;
       } else {
-        Map<String, dynamic> rawdata = jsonDecode(response.body);
-        return rawdata['message'];
+        throw rawdata['message'];
       }
     } catch (e) {
-      rethrow;
+      throw e is SocketException ? 'Tidak Terkoneksi Server' : e.toString();
     }
   }
 
@@ -184,7 +182,7 @@ class Addressservice {
         throw rawdata['message'];
       }
     } catch (e) {
-      rethrow;
+      throw e is SocketException ? 'Tidak Terkoneksi Server' : e.toString();
     }
   }
 }

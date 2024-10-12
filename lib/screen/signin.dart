@@ -46,8 +46,9 @@ class _SignInScreenState extends State<SignInScreen> {
           }
           if (state is AuthFailed) {
             Navigator.of(context).pop();
-            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                content: Text('Gagal Login Karna Masalah Jaringan')));
+
+            ScaffoldMessenger.of(context)
+                .showSnackBar(SnackBar(content: Text(state.e)));
           }
         },
         child: SingleChildScrollView(

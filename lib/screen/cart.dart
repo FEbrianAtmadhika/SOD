@@ -441,7 +441,7 @@ class _CartScreenState extends State<CartScreen> {
                               text: "Lanjutkan Pembayaran",
                               onPressed: () {
                                 if (calculateSubtotal(data, itemSelectedList) >=
-                                    25000) {
+                                    15000) {
                                   AddTransactionModel item =
                                       AddTransactionModel(
                                           appfee: 1000,

@@ -210,7 +210,13 @@ class _RecommendationState extends State<Recommendation> {
                         return ElevatedButtonFilled(
                           text: "Tambah Ke Keranjang",
                           onPressed: () {
-                            if (state.data.address!.isEmpty ||
+                            if (itemCount <= 0) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    content: Text(
+                                        'Tidak Bisa Menambahkan Ke Keranjang')),
+                              );
+                            } else if (state.data.address!.isEmpty ||
                                 !state.data.address!.any(
                                     (element) => element.status == 'active')) {
                               showDialog(
@@ -233,17 +239,12 @@ class _RecommendationState extends State<Recommendation> {
                                 },
                               );
                             } else {
-                              if (itemCount <= 0) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                        content: Text(
-                                            'Tidak Bisa Menambahkan Ke Keranjang')));
-                              } else {
-                                context.read<CartBloc>().add(AddCartItem(
-                                    AddCartModel(
+                              // Tambahkan item ke keranjang
+                              context.read<CartBloc>().add(
+                                    AddCartItem(AddCartModel(
                                         quantity: itemCount,
-                                        variantid: selectedButton)));
-                              }
+                                        variantid: selectedButton)),
+                                  );
                             }
                           },
                         );

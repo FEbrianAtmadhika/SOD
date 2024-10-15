@@ -52,7 +52,7 @@ class MainApp extends StatelessWidget {
           create: (context) => ProductBloc(),
         ),
         BlocProvider(
-          create: (context) => AuthBloc()..add(AuthGetCurrent(context)),
+          create: (context) => AuthBloc(),
         )
       ],
       child: MaterialApp(

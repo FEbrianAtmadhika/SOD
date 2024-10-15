@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:in_app_update/in_app_update.dart';
 import 'package:sod_new/bloc/Auth/auth_bloc.dart';
@@ -15,10 +16,6 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   AppUpdateInfo? _updateInfo;
   @override
-  void initState() {
-    _checkForUpdate();
-    super.initState();
-  }
 
   // void _redirectToPlayStoreForTesting() async {
   //   final url =
@@ -30,24 +27,46 @@ class _SplashScreenState extends State<SplashScreen> {
   //   }
   // }
 
-  Future<void> _checkForUpdate() async {
+  Future<void> _checkForUpdate(BuildContext context) async {
     try {
       final info = await InAppUpdate.checkForUpdate();
       setState(() {
         _updateInfo = info;
       });
-
-      // Memeriksa apakah ada pembaruan wajib
       if (_updateInfo?.updateAvailability ==
           UpdateAvailability.updateAvailable) {
         if (_updateInfo!.immediateUpdateAllowed == true) {
-          // await InAppUpdate.performImmediateUpdate();
+          await InAppUpdate.performImmediateUpdate().then(
+            (value) {
+              SystemNavigator.pop();
+            },
+          );
         }
         if (_updateInfo!.flexibleUpdateAllowed == true) {
           _showUpdateDialog();
         }
-      } else {}
-    } catch (e) {}
+      } else {
+        context.read<AuthBloc>().add(AuthGetCurrent(context));
+      }
+    } catch (e) {
+      showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (BuildContext context) {
+            return AlertDialog(
+                title: const Text('Kesalahan Koneksi'),
+                content: const Text(
+                    'Perangkat Anda tidak terkoneksi ke internet. Silakan cek koneksi Anda dan coba lagi.'),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text('OK'),
+                  ),
+                ]);
+          });
+    }
   }
 
   void _showUpdateDialog() {
@@ -62,13 +81,22 @@ class _SplashScreenState extends State<SplashScreen> {
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
+                context.read<AuthBloc>().add(AuthGetCurrent(context));
               },
               child: const Text('Batal'),
             ),
             TextButton(
               onPressed: () async {
                 Navigator.of(context).pop();
-                await InAppUpdate.performImmediateUpdate();
+                await InAppUpdate.performImmediateUpdate().then(
+                  (value) {
+                    if (value == AppUpdateResult.success) {
+                      SystemNavigator.pop();
+                    } else {
+                      context.read<AuthBloc>().add(AuthGetCurrent(context));
+                    }
+                  },
+                );
               },
               child: const Text('Perbarui'),
             ),
@@ -76,6 +104,12 @@ class _SplashScreenState extends State<SplashScreen> {
         );
       },
     );
+  }
+
+  @override
+  void didChangeDependencies() {
+    _checkForUpdate(context);
+    super.didChangeDependencies();
   }
 
   @override
@@ -106,20 +140,25 @@ class _SplashScreenState extends State<SplashScreen> {
             );
           }
         },
-        child: Stack(
-          children: [
-            Image.asset(
-              "assets/images/splash2.png",
-              width: MediaQuery.of(context).size.width,
-              fit: BoxFit.fill,
-            ),
-            Center(
-              child: Image.asset(
-                "assets/images/splash1.png",
-                width: MediaQuery.of(context).size.width / 2,
+        child: GestureDetector(
+          onTap: () {
+            context.read<AuthBloc>().add(AuthGetCurrent(context));
+          },
+          child: Stack(
+            children: [
+              Image.asset(
+                "assets/images/splash2.png",
+                width: MediaQuery.of(context).size.width,
+                fit: BoxFit.fill,
               ),
-            ),
-          ],
+              Center(
+                child: Image.asset(
+                  "assets/images/splash1.png",
+                  width: MediaQuery.of(context).size.width / 2,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

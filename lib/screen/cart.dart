@@ -466,7 +466,7 @@ class _CartScreenState extends State<CartScreen> {
                                       return AlertDialog(
                                         title: const Text("Perhatian"),
                                         content: const Text(
-                                            "Total harga sayur harus lebih dari Rp 25.000."),
+                                            "Total harga sayur harus lebih dari Rp 15.000."),
                                         actions: <Widget>[
                                           TextButton(
                                             onPressed: () {
